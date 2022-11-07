@@ -11,7 +11,7 @@ export const CreateChainId = ({uid, web3}) => {
 
   const createAccount = async() => {
     const FROM_ADDR = await getChainId(uid);
-    if(FROM_ADDR){
+    if(FROM_ADDR === null){
       let accountKey = [];
       const account = web3.eth.accounts.create();
       const record = { 
@@ -30,12 +30,12 @@ export const CreateChainId = ({uid, web3}) => {
       })
     }
     else{
-      alert('Please refresh this page in a few minutes');
+      alert('이미 블록체인 지갑이 연동된 계정입니다');
     } 
   }
   return(
     <>
-      <button onClick={createAccount}>create chainId</button>
+      <button onClick={createAccount}>지갑 만들기</button>
       <AlertModal 
         showFlag={modalFlag} 
         ADDR={chainAccount[0]} 

@@ -79,7 +79,7 @@ export const MintItemCpnt = ({title, desc, toknUri, rightInfo}) => {
     <h5>price: <input placeholder='price of token' onChange={(evt)=>setValue(evt.target.value)} /></h5>
     <h5>royalties: <input placeholder='MATIC' onChange={(evt)=>setLowest(evt.target.value)}/></h5>
     <h5>private Key: <input placeholder='input your private key to mint nft' onChange={(evt)=>setPrivKey(evt.target.value)} size='45'/></h5>
-    <button onClick={inputDataConfirm}>NFTmint</button>
+    <button onClick={inputDataConfirm}>판매시작</button>
     <AlertModal 
       showFlag={modalFlag}
       NofTokn={NumOfTokn}

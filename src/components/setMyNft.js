@@ -79,7 +79,7 @@ export const SetMyNFT = ({chainId}) => {
   }
   return(
     <>
-      <h2>My Item List</h2>
+      <h2>배포중인 NFT 목록.</h2>
       {itemList.length === 0 ? 
         <p>There are no items uploaded yet</p>:<></>}
       {itemList.map((searchItems, index) => (
@@ -90,7 +90,7 @@ export const SetMyNFT = ({chainId}) => {
           itemId = {searchItems.id}
         />
       ))}
-      <h2>Manage My NFT</h2>
+      <h2>보유한 NFT 목록.</h2>
       {toknMatch.length === 0 ?
         <p>No NFT in your account</p>:<></>}
       {toknMatch.map((searchItems, index) => (

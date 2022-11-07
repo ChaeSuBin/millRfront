@@ -6,9 +6,6 @@ async function request(path, options = {}) {
     return response.json();
 }
 
-export async function resetUserPass(_userMail){
-  return request(`/resetpass/${_userMail}`);
-}
 export async function getUserId(_chainAddr) {
   return request(`/getuserid/${_chainAddr}`);
 }
@@ -90,6 +87,20 @@ export async function postTempuserTable(record) {
     method: "POST",
   });
 }
+export async function postResetMail(record) {
+  return request(`/sendmailreset`, {
+    body: JSON.stringify(record),
+    headers: {"Content-Type": "application/json"},
+    method: "POST",
+  });
+}
+export async function postResetPass(record) {
+  return request(`/resetpass`, {
+    body: JSON.stringify(record),
+    headers: {"Content-Type": "application/json"},
+    method: "POST",
+  });
+}
 export async function postUploadArtwork(record) {
   return request(`/fileupload`, {
     body: JSON.stringify(record),
@@ -99,14 +110,6 @@ export async function postUploadArtwork(record) {
 }
 export async function postUploadItemIdx(record) {
   return request(`/fileinfoupload`, {
-    body: JSON.stringify(record),
-    headers: {"Content-Type": "application/json"},
-    method: "POST",
-  });
-}
-export async function postUserRegi(record) {
-  console.log('v', JSON.stringify(record));
-  return request(`/regiplayer`, {
     body: JSON.stringify(record),
     headers: {"Content-Type": "application/json"},
     method: "POST",

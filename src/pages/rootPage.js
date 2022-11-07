@@ -36,11 +36,11 @@ export const HomePage = () => {
       <Link to="/filetohash" style={{ textDecoration: 'none' }}>
         <button style={{fontSize:"large"}}>create NFT</button>
       </Link></p>
-      <h3>on sale List</h3>
+      <h3>NFT 판매목록</h3>
       <label><input type="radio" onChange={getOpenedItems} name='comm' defaultChecked/>
-        selling Items </label>
+        배포중인 NFT </label>
       <label><input type="radio" onChange={getOpenedTokns} name='comm'/>
-        selling Tokens </label><br/>
+        거래중인 NFT </label><br/>
       {opendList.map((searchItems, index) => (
         <ListItemsCpnt
           key={index}
