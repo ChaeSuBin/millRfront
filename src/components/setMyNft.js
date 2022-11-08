@@ -79,7 +79,7 @@ export const SetMyNFT = ({chainId}) => {
   }
   return(
     <>
-      <h2>배포중인 NFT 목록.</h2>
+      <h2>업로드한 아이템 목록.</h2>
       {itemList.length === 0 ? 
         <p>There are no items uploaded yet</p>:<></>}
       {itemList.map((searchItems, index) => (

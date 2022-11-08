@@ -4,6 +4,7 @@ import { MintItemCpnt } from "../components/mintItem";
 import { RightBranch } from "../components/rightBranch";
 
 export const CreateNft = ({web3}) => {
+  const uid = sessionStorage.getItem('userid');
   const [title, setTitle] = useState('');
   const [desc, setDesc] = useState('');
   const [itemHash, setHash] = useState(null);
@@ -11,15 +12,19 @@ export const CreateNft = ({web3}) => {
   const [loginFlag, setFlag] = useState(false);
 
   useEffect(() => {
-    const uid = sessionStorage.getItem('userid');
+    checkLogined(uid);
+    console.log(uid);
+  },[])
+
+  const checkLogined = (uid) => {
     if(uid === null){
       setFlag(false);
     }
     else{
-      alert('아이템 업로드 전 블록체인 지갑 주소와 Private key를 확인해주세요.');
       setFlag(true);
     }
-  },[])
+  }
+
   return(
     <>
       {loginFlag ? <>
