@@ -6,6 +6,10 @@ async function request(path, options = {}) {
     return response.json();
 }
 
+
+export async function getMatchUserId(_userId) {
+  return request(`/getmatchuserid/${_userId}`);
+}
 export async function getUserId(_chainAddr) {
   return request(`/getuserid/${_chainAddr}`);
 }
@@ -14,6 +18,9 @@ export async function getOwnedItems(_userId) {
 }
 export async function getOwnedTokns(_userId) {
   return request(`/getownedtokn/${_userId}`);
+}
+export async function getItemTitle(_itemHash) {
+  return request(`/getitemtitle/${_itemHash}`);
 }
 export async function getItemsIdList(_userId, _itemHash) {
   return request(`/getidlist/${_userId}/${_itemHash}`);
@@ -24,8 +31,8 @@ export async function getChainId(_userId) {
 export async function getMerge(_fileName, _fileHash) {
   return request(`/merge/${_fileName}/${_fileHash}`);
 }
-export async function getItem(_fileHash) {
-  return request(`/iteminfo/${_fileHash}`);
+export async function getItem(_rowId) {
+  return request(`/iteminfo/${_rowId}`);
 }
 export async function getOpenedItem(){
   return request('/openeditems');
@@ -51,6 +58,13 @@ export async function putChainId(record) {
     method: "PUT",
   });
 }
+export async function putItemClose(record) {
+  return request(`/setitemclose`, {
+    body: JSON.stringify(record),
+    headers: {"Content-Type": "application/json"},
+    method: "PUT",
+  });
+}
 export async function putToknSale(record) {
   return request(`/settoknsale`, {
     body: JSON.stringify(record),
@@ -67,13 +81,6 @@ export async function buyedToknChange(record) {
 }
 export async function putLogin(record) {
   return request(`/usercheckin`, {
-    body: JSON.stringify(record),
-    headers: {"Content-Type": "application/json"},
-    method: "PUT",
-  });
-}
-export async function putOpenStt(record) {
-  return request(`/opentokn`, {
     body: JSON.stringify(record),
     headers: {"Content-Type": "application/json"},
     method: "PUT",

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
-import { getItemsIdList, getOwnedItems, getOwnedTokns, getUserId, putOpenStt, putToknSale } from '../api';
+import { getItemsIdList, getOwnedItems, getOwnedTokns, getUserId, putToknSale } from '../api';
 import { ListItemsModal, ListItemsCpnt } from './itemCpnt';
 import { 
   getItemStatus,

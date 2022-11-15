@@ -37,7 +37,7 @@ export const HomePage = () => {
         <button style={{fontSize:"large"}}>아이템 업로드</button>
       </Link></p>
       <label><input type="radio" onChange={getOpenedItems} name='comm' defaultChecked/>
-        초회판매 아이템 목록 </label>
+        초기판매 아이템 목록 </label>
       <label><input type="radio" onChange={getOpenedTokns} name='comm'/>
         2차거래 NFT 목록 </label><br/>
       {opendList.map((searchItems, index) => (

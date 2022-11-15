@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { SetFileHash } from "../components/setFileHash";
-import { MintItemCpnt } from "../components/mintItem";
-import { RightBranch } from "../components/rightBranch";
+import { SetFileHash } from "../components/uploadIDX/setFileHash";
+import { SetItemCpnt } from "../components/uploadIDX/setItem";
+import { RightBranch } from "../components/uploadIDX/rightBranch";
 
 export const CreateNft = ({web3}) => {
   const uid = sessionStorage.getItem('userid');
@@ -27,17 +27,18 @@ export const CreateNft = ({web3}) => {
 
   return(
     <>
-      {loginFlag ? <>
-        <h5>title: <input placeholder='title' onChange={(evt)=>setTitle(evt.target.value)}/></h5>
-        <h5>description: <br/>
-        <textarea name="docudesc" rows='5' cols='55' placeholder="description of the NFT to upload&#13;" 
-          onChange={(evt) => setDesc(evt.target.value)}/></h5>
+      {loginFlag ? <><br/><br/><br/>
+        <h3>아이템 제목/설명/이용범위 설정.</h3>
+        <p>title: <input placeholder='title' onChange={(evt)=>setTitle(evt.target.value)}/></p>
+        <p>description: <br/>
+        <textarea name="docudesc" rows='5' cols='55' placeholder="아이템 설명을 입력해주세요.&#13;" 
+          onChange={(evt) => setDesc(evt.target.value)}/></p>
         <RightBranch pWire={(rightInfo)=>setRight(rightInfo)}/>
-        <SetFileHash pWire={(hash)=>setHash(hash)} />
         {itemHash == null ?
           <>
+            <SetFileHash pWire={(hash)=>setHash(hash)} />
           </> : <>
-            <MintItemCpnt title={title} desc={desc} toknUri={itemHash} rightInfo={plusUri}/>
+            <SetItemCpnt title={title} desc={desc} toknUri={itemHash} rightInfo={plusUri}/>
           </>
         }  
       </>:<>

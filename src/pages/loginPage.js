@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import { putLogin, getChainId, postTempuserTable, postResetMail, postResetPass } from "../api";
+import { putLogin, getChainId, postTempuserTable, postResetMail, postResetPass, getMatchUserId } from "../api";
 
 export const LoginInput = ({triger}) => {
   const navigate = useNavigate();
@@ -34,9 +34,15 @@ export const LoginInput = ({triger}) => {
     }
   }
   const sendMail = () => {
-    postResetMail({playerId: inputId}).then(result => {
-      if(result)
-        alert('인증메일 전송됨.');
+    getMatchUserId(inputId).then(result => {
+      if(result){
+        postResetMail({playerId: inputId}).then(result => {
+          if(result)
+            alert('인증메일 전송됨.');
+        })
+      }
+      else
+        alert('존재하지 않는 아이디입니다.');
     })
   }
   const changePass = () => {

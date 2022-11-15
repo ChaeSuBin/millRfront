@@ -1,4 +1,4 @@
-import React, { useEffect, useState }from 'react';
+import React, { useEffect, useState, useRef }from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   getItem, 
@@ -6,7 +6,9 @@ import {
   getFileBolb, 
   getUserId, 
   postMintTokn,
-  buyedToknChange } from '../../api';
+  buyedToknChange, 
+  putItemClose,
+  getItemId} from '../../api';
 import { 
   eventMintTokn,
   getItemStatus, 
@@ -16,9 +18,14 @@ import {
 } from '../../utilityUnits/connMintService';
 import { buyNFT } from '../../utilityUnits/connTradeService';
 import { Help } from '../helpCpnt';
+import { WaitModal } from '../waitModal';
 
 export const  ItemPage = ({cid, itemId, mode}) => {
-  const [status, setStt] = useState({price: null, sts: null});
+  let count = 0;
+  const intervalId = useRef(null);
+  const navigate = useNavigate();
+  const [status, setStt] = useState({price: null, sts: null, amount: null});
+  const [idxId, setIdxId] = useState();
   const [chkOwn, setChkOwn] = useState(true);
   const [royalty, setLeast] = useState();
   const [itemUri, setUri] = useState();
@@ -28,21 +35,23 @@ export const  ItemPage = ({cid, itemId, mode}) => {
   const [fileList, setList] = useState([]);
   const [modalFlag, setFlag] = useState(false);
   const [modalFlag2, setFlag2] = useState(false);
+  const [waitFlag, set_w_Flag] = useState(false);
   const [helpMode, setHelpMod] = useState();
 
   useEffect(() => {
     console.log('ip', mode);
     if(!mode){
-      getToknSts(itemId - 1);
-      getItemInfo(itemId);
+      getToknSts(itemId);
       toknMintingEvtListener();
     }
     //downloadPermission();
   },[])
-
-  const getToknSts = async(_id) => {
+  
+  const getToknSts = async(_rowId) => {
     let count = 0;
-    const toknStatus = await getItemStatus(_id);
+    const itemIdxId = await getItemId(_rowId);
+    const toknStatus = await getItemStatus(itemIdxId);
+    //console.log(toknStatus, itemIdxId);
     const toknURI = toknStatus.fileHash;
     const splitedUri = toknURI.split('/');
     if(splitedUri[3] === ''){
@@ -59,15 +68,17 @@ export const  ItemPage = ({cid, itemId, mode}) => {
       toknStatus.price /= 1000000;
     }while(++count < 3)
     hexToUTF8(toknStatus.status).then(result => {
-      setStt({price: toknStatus.price, sts: result});
+      setStt({price: toknStatus.price, sts: result, amount: toknStatus.limit});
       //setStt({price: toknStatus.price});
     })
+    setIdxId(itemIdxId);
     setLeast(toknStatus.royalty);
+    getItemInfo(itemIdxId);
   }
 
   
-  const getItemInfo = async(_id) => {
-    const toknStatus = await getItemStatus(_id-1);
+  const getItemInfo = async(_idxid) => {
+    const toknStatus = await getItemStatus(_idxid);
     //console.log(toknStatus);
     const toknURI = toknStatus.fileHash;
     const fileHash = toknURI.split('/')[4];
@@ -92,7 +103,7 @@ export const  ItemPage = ({cid, itemId, mode}) => {
   }
 
   const buyButton = async() => {
-    const toknStatus = await getItemStatus(itemId-1);
+    const toknStatus = await getItemStatus(idxId);
     if(toknStatus.limit > 0)
       setFlag(true);
     else
@@ -108,15 +119,63 @@ export const  ItemPage = ({cid, itemId, mode}) => {
     setFlag2(false);
     document.removeEventListener('click', helpClose);
   }
+
+  const serveToknIdx = async(_toknId) => {
+    const userId = await getUserId(cid);
+    const record = {
+      toknId: _toknId,
+      userId: userId
+    }
+    console.log(record);
+    if(status.amount == 1){
+      console.log(status.amount);
+      putItemClose({itemID: idxId});
+    }
+    postMintTokn(record).then(resultIdx => {
+      if(resultIdx){
+        set_w_Flag(false); setFlag(false);
+        clearInterval(intervalId.current);
+        intervalId.current=null;
+        alert('🎉Successfully purchased');
+        navigate("/");}
+    })
+  }
+  const buyToknMint = async(PRIVATE_KEY) => {
+    console.log(PRIVATE_KEY);
+    const value = parseInt(status.price*100000) + '0000000000000';
+    mintingToken(cid, PRIVATE_KEY, idxId, value).then(result => {
+      if(result === true){
+        intervalId.current = setInterval(() => {
+          if(count > 9){
+            clearInterval(intervalId);
+            set_w_Flag(false); setFlag(false);
+            alert('입력하신 Private Key가 다른 주소의 키 같습니다\n 키를 확인 후 다시 시도하여주십시오.')
+          }
+          else
+            ++count;
+        }, 1000);
+      }
+      else{
+        set_w_Flag(false);
+        alert(`⚠️Err: ${result}`);
+      }
+    })
+  }
   const toknMintingEvtListener = async() => {
     const listen = await eventMintTokn(cid);
-    console.log(listen);
+    serveToknIdx(listen.toknId);
+  }
+
+  const tempa = (priv) => {
+    console.log(priv);
+    const value = parseInt(status.price*100000) + '0000000000000';
+    console.log(value);
+    console.log(idxId);
   }
   return (
-  <>
-    <h3>itemDetailPage</h3>
+  <><br/>
+    <h3>title: {title}</h3>
     <h4>permission to use: <a style={{cursor: "help"}} onClick={(evt)=>helpOpen(evt, 0)}>{lisence}</a></h4>
-    <h4>title: {title}</h4>
     <h4>description: {desc}</h4>
     {/* <h4>status: {status.sts}</h4> */}
     <h4>price: {status.price} MATIC</h4>
@@ -133,11 +192,12 @@ export const  ItemPage = ({cid, itemId, mode}) => {
     ))}
     <BuyModal
       showFlag={modalFlag}
-      SEND_ADDR = {cid}
+      setFlag = {setFlag}
       price = {status.price}
-      itemId = {itemId-1}
-      fileHash = {itemUri}
+      set_w_Flag = {set_w_Flag}
+      buyTokn = {buyToknMint}
     />
+    <WaitModal showFlag={waitFlag} />
     <Help
       showFlag={modalFlag2}
       display = {helpMode}
@@ -145,6 +205,29 @@ export const  ItemPage = ({cid, itemId, mode}) => {
   </>
   );
 }
+const BuyModal = ({showFlag, setFlag, price, set_w_Flag, buyTokn}) => {
+  
+  
+  const [PRIVATE_KEY, setPriv] = useState();
+  
+  return(<>
+    {showFlag ? ( // showFlagがtrueだったらModalを表示する
+    <div id="overlay" className='overlay'>
+      <div id="modalcontents" className="modalcontents">
+        <h4>가격: {price} Matic</h4>
+        <h5> PRIVATE_KEY :
+          <input onChange={(evt)=>setPriv(evt.target.value)} size='45'></input></h5>
+        <button onClick={() => {set_w_Flag(true); buyTokn(PRIVATE_KEY);}}>Buy</button>
+        <button onClick={()=>setFlag(false)}>cancel</button>
+        
+      </div>
+    </div>
+    ) : (
+      <></>// showFlagがfalseの場合はModalは表示しない)
+    )}
+  </>)
+}
+
 const FileListViewer = ({fileName, toknUri, permission}) => {
   const downloadFileData = () => {
     if(permission){
@@ -167,45 +250,4 @@ const FileListViewer = ({fileName, toknUri, permission}) => {
     </h5>
   </>
   )
-}
-
-const BuyModal = ({showFlag, SEND_ADDR, price, itemId, fileHash}) => {
-  const navigate = useNavigate();
-  const [PRIVATE_KEY, setPriv] = useState();
-  
-  const buyToknMint = async() => {
-    const userId = await getUserId(SEND_ADDR);
-    const value = parseInt(price*100000) + '0000000000000';
-    const record = {
-      hash: fileHash,
-      //toknId: 0,
-      userId: userId
-    }
-    mintingToken(SEND_ADDR, PRIVATE_KEY, itemId, value).then(result => {
-      if(result === true){
-        postMintTokn(record).then(resultIdx => {
-          if(resultIdx){
-            alert('🎉Successfully purchased');
-            navigate("/");}
-        })
-      }
-      else
-        alert(`⚠️Err: ${result}`);
-      }
-    )
-  }
-  return(<>
-    {showFlag ? ( // showFlagがtrueだったらModalを表示する
-    <div id="overlay" className='overlay'>
-      <div id="modalcontents" className="modalcontents">
-        <h4>coast: {price}</h4>
-        <h5> PRIVATE_KEY :
-          <input onChange={(evt)=>setPriv(evt.target.value)} size='45'></input></h5>
-        <button onClick={buyToknMint}>Buy</button>
-      </div>
-    </div>
-    ) : (
-      <></>// showFlagがfalseの場合はModalは表示しない)
-    )}
-  </>)
 }

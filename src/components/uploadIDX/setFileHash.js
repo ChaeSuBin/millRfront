@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { onFileInputChange } from "../utilityUnits/fileToBuffer";
-import { fileToHash, setFinalHash } from '../utilityUnits/fileToHash'
-import { FilesList } from "../components/dispFileList";
+import { onFileInputChange } from "../../utilityUnits/fileToBuffer";
+import { fileToHash, setFinalHash } from '../../utilityUnits/fileToHash'
+import { FilesList } from "../../components/dispFileList";
 import { UploadFiles } from "./uploadFiles";
 
-export const SetFileHash = ({title, desc, pWire}) => {
+export const SetFileHash = ({pWire}) => {
 
   let te = -1;
   let hashArr = [];
@@ -29,7 +29,7 @@ export const SetFileHash = ({title, desc, pWire}) => {
   const getFileHashArr = () => {
     hashArr = fileToHash(fileBuffer, setFileHashs);
     const endHash = getFinalHash(hashArr);
-    console.log(endHash);
+    UploadFiles(fileBuffer, fileInfo, endHash);
     setEndHash(endHash);
   }
 
@@ -64,7 +64,7 @@ export const SetFileHash = ({title, desc, pWire}) => {
 
   return(
     <div>
-      <h4>extract hash</h4>
+      <h3>업로드할 파일 선택</h3>
       <label className="inputfile"><input type='file' 
         onChange={(evt)=>
           onFileInputChange(evt, setFileBuffer, setFileInfo, setCheckA)} 
@@ -80,18 +80,12 @@ export const SetFileHash = ({title, desc, pWire}) => {
           hash = {fileHashs[te]}
         />
       ))}
-      {passA ? <><button onClick={extractHash}>extract</button>Press this button and wait a moment</> : <></>}
-      <UploadFiles
-        fileBufferList = {fileBuffer}
-        fileInfoList = {fileInfo}
-        finalHash = {endHash}
-      />
+      {passA ? 
+      <>
+        <button onClick={extractHash}>파일 업로드</button>-버튼을 누른 후 잠시 기다려주세요.
+      </>:<>
+      
+      </>}
     </div>
   )
-}
-export const StatusPer = ({status}) => {
-  console.log(status);
-  return(<>
-    {status}
-  </>)
 }
