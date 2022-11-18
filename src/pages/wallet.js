@@ -85,10 +85,10 @@ export const Wallet = ({web3, ADDR}) => {
     <h2>wallet</h2>
     <h4>잔고: {balance} MATIC
       <button onClick={()=>setSendFlag(true)}>send</button></h4>
-    <h4><a style={{cursor: "help"}} onClick={(evt)=>helpOpen(evt, 2)}>NFT 발행 수익: {earning} MATIC</a>
-      <button onClick={withdrawFromMintservice}>인출</button></h4>
-    <h4><a style={{cursor: "help"}} onClick={(evt)=>helpOpen(evt, 2)}>NFT 판매 수익: {tradeEarning} MATIC</a>
-      <button onClick={withdrawFromTradeService}>인출</button></h4>
+    <h4><a style={{cursor: "help"}} onClick={(evt)=>helpOpen(evt, 2)}>아이템 발행 수입: {earning} MATIC</a>
+      <button onClick={withdrawFromMintservice}>내 잔고로 이체</button></h4>
+    <h4><a style={{cursor: "help"}} onClick={(evt)=>helpOpen(evt, 2)}>NFT 판매 수입: {tradeEarning} MATIC</a>
+      <button onClick={withdrawFromTradeService}>내 잔고로 이체</button></h4>
     <h5> PRIVATE_KEY :
       <input onChange={(evt)=>setPriv(evt.target.value)} size='45'></input></h5>
     <CoinSendModal

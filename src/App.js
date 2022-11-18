@@ -17,6 +17,8 @@ import { HelpDesk } from "./pages/helpDesk";
 import { Nav } from './components/naviCpnt';
 import { eventMintTokn } from './utilityUnits/connMintService';
 import { serveToknIdx } from './components/detailPages/toknMint';
+import { eventTradeTokn } from "./utilityUnits/connTradeService";
+import { updateToknIdx } from "./components/detailPages/toknTransfer";
 
 function App() {
   const [triger, setTriger] = useState(false);
@@ -26,10 +28,15 @@ function App() {
 
   useEffect(() => {
     toknMintingEvtListener();
+    toknTransferEvtListerner();
   })
   const toknMintingEvtListener = async() => {
     const listen = await eventMintTokn(FROM_ADDR);
     serveToknIdx(listen.toknId, FROM_ADDR);
+  }
+  const toknTransferEvtListerner = async() => {
+    const listen = await eventTradeTokn(FROM_ADDR);
+    updateToknIdx(listen.buyer, listen.toknId);
   }
   
   return (
@@ -44,7 +51,7 @@ function App() {
               <Route exact path='/userregist' element={<RegistInput />}/>
               <Route exact path='/signinpage' element={<LoginInput triger={(param) => setTriger(param)}/>}/>
               <Route exact path='/myinfo' element={<UserInfoPage web3={web3} chainId={FROM_ADDR}/>}/>
-              <Route exact path='/filetohash' element={<CreateNft web3={web3}/>}/>
+              <Route exact path='/filetohash' element={<CreateNft />}/>
               <Route exact path='/itemdetails/:mode/:id' element={<ItemDetail />}/>
             </Routes>
           </section>

@@ -27,6 +27,7 @@ export const LoginInput = ({triger}) => {
           sessionStorage.setItem('chainid', chainId);
         triger(true);
         navigate("/");
+        window.location.reload();
       })
     }
     else{

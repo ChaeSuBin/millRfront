@@ -31,12 +31,6 @@ export const eventTradeTokn = async(ADDR) => {
   })
 }
 
-export const tempbuynft = async(SEND_ADDR, PRIVATE_KEY, toknId, toknPrice) => {
-  const method = tradeService().methods.buyTokn(toknId);
-  console.log(SEND_ADDR, toknId, toknPrice);
-  const estGas = await method.estimateGas({from: SEND_ADDR, value: toknPrice});
-  console.log(estGas);
-}
 export const buyNFT = async(SEND_ADDR, PRIVATE_KEY, toknId, toknPrice) => {
   const chainId = await web3.eth.getChainId();
   const nonce = await web3.eth.getTransactionCount(SEND_ADDR, 'latest');

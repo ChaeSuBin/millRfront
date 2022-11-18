@@ -3,10 +3,12 @@ import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { postUploadItemIdx, getUserId } from '../../api';
 import { eventCreateItem, setNFTidx } from '../../utilityUnits/connMintService';
+import { WaitModal } from '../waitModal';
+
+let count = 0;
+let intervalId = null;
 
 export const SetItemCpnt = ({title, desc, toknUri, rightInfo}) => {
-  let count = 0;
-  const intervalId = useRef(null);
   const SEND_ADDR = sessionStorage.getItem('chainid');
   const navigate = useNavigate();
   const [NumOfTokn, setNumOfTokn] = useState();
@@ -39,9 +41,9 @@ export const SetItemCpnt = ({title, desc, toknUri, rightInfo}) => {
       setNFTidx(SEND_ADDR, PRIVATE_KEY, tokenUri, value, royality, NumOfTokn).then(
         result => {
           if(result === true){
-            intervalId.current = setInterval(() => {
+            intervalId = setInterval(() => {
               if(count > 9){
-                clearInterval(intervalId);
+                stopTimer();
                 setFlag(false);
                 alert('입력하신 Private Key가 다른 주소의 키 같습니다\n 키를 확인 후 다시 시도하여주십시오.')
               }
@@ -73,10 +75,7 @@ export const SetItemCpnt = ({title, desc, toknUri, rightInfo}) => {
       console.log('checka')
       if(response){
         setFlag(false);
-        console.log('checkb')
-        console.log(intervalId);
-        clearInterval(intervalId.current);
-        intervalId.current=null;
+        stopTimer();
         alert('🎉Successfully Created');
         navigate("/");
       }
@@ -95,22 +94,12 @@ export const SetItemCpnt = ({title, desc, toknUri, rightInfo}) => {
     <p>royalties: <input placeholder='MATIC' onChange={(evt)=>setLowest(evt.target.value)}/></p>
     <p>private Key: <input placeholder='input your private key to mint nft' onChange={(evt)=>setPrivKey(evt.target.value)} size='45'/></p>
     <button onClick={() => {setFlag(true); setItem();}}>판매시작</button>
-    <AlertModal showFlag={modalFlag} />
+    <WaitModal showFlag={modalFlag} />
     </>
   )
 }
-
-const AlertModal = ({showFlag}) => {
-  return(
-    <>{showFlag ? ( // showFlagがtrueだったらModalを表示する
-      <div id="overlay" className='overlay'>
-        <div id="modalcontents" className="modalcontents">
-          <h3>폴리곤 체인에 기록중...</h3>
-        </div>
-      </div>
-      ) : (
-        <></>// showFlagがfalseの場合はModalは表示しない)
-      )}
-    </>
-  )
+const stopTimer = () => {
+  clearInterval(intervalId);
+  intervalId=null;
+  count = 0;
 }

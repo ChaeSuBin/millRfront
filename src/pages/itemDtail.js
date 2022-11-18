@@ -5,6 +5,7 @@ import { FileListViewer } from'../components/detailPages/fileListViewer';
 import { getBlockInfo, getNftInfo } from '../components/detailPages/setBlockIDX';
 import { WaitModal } from '../components/waitModal';
 import { buyToknMint } from '../components/detailPages/toknMint';
+import { buyToknTransfer } from '../components/detailPages/toknTransfer';
 
 export const  ItemDetail = () => {
   const FROM_ADDR = sessionStorage.getItem('chainid');
@@ -40,7 +41,7 @@ export const  ItemDetail = () => {
     setIB(toknInfo);
     const fileList = await getItemFiles(toknInfo.fileHash);
     setFlist(fileList);
-    const itemInfo = await getItemInfoFromHash(toknInfo.fileHash);
+    const itemInfo = await getItemInfoFromHash(toknInfo.fileHash, _toknId);
     setII(itemInfo);
   }
 
@@ -57,7 +58,7 @@ export const  ItemDetail = () => {
       </> : <>
         <h4>남은 수량: {itemInfoB.remain}개 남음</h4>  
       </>}
-    <button onClick={() => setFlag(true)}>buttonA</button>
+    <button onClick={() => setFlag(true)}>구매하기</button>
     {fileList.map((searchItems, index) => (
       <FileListViewer
         key={index}
@@ -91,7 +92,7 @@ const BuyModal = ({showFlag, setFlag2, setFlag, addr, price, itemId, buyMode}) =
         <h4>가격: {price} Matic</h4>
         <h5> PRIVATE_KEY :
           <input onChange={(evt)=>setPriv(evt.target.value)} size='45'></input></h5>
-        {buyMode ? <button>true</button> : 
+        {buyMode ? <button onClick={() => {setFlag2(true); buyToknTransfer(price, itemId, setFlag2, addr, PRIVATE_KEY)}}>구매하기</button> : 
           <button onClick={() => {setFlag2(true); buyToknMint(price, itemId, setFlag, setFlag2, addr, PRIVATE_KEY);}}>구매하기</button>}
         {/* <button onClick={() => {set_w_Flag(true); buyTokn(PRIVATE_KEY);}}>Buy</button> */}
         <button onClick={()=>setFlag(false)}>cancel</button>

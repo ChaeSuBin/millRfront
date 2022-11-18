@@ -30,11 +30,14 @@ export const HomePage = () => {
     }
     setOpend(toknList);
   }
+  const refreshPage = () => {
+    window.location.assign('./filetohash');
+  }
   return(
     <>
       <p style={{textAlign: "center"}}>
       <Link to="/filetohash" style={{ textDecoration: 'none' }}>
-        <button style={{fontSize:"large"}}>아이템 업로드</button>
+        <button onClick={refreshPage} style={{fontSize:"large"}}>아이템 업로드</button>
       </Link></p>
       <label><input type="radio" onChange={getOpenedItems} name='comm' defaultChecked/>
         초기판매 아이템 목록 </label>
