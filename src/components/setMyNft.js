@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
-import { getItemsIdList, getOwnedItems, getOwnedTokns, getUserId, putToknSale } from '../api';
+import { getItemsIdList, getOwnedItems, getOwnedTokns, getUserId, putLogin, putToknSale } from '../api';
 import { ListItemsModal, ListItemsCpnt } from './itemCpnt';
 import { 
   getItemStatus,
@@ -10,6 +10,7 @@ import {
   openToken,
   closeToken
 } from "../utilityUnits/connMintService";
+import { SHA256 } from '../utilityUnits/SHA256';
 
 export const SetMyNFT = ({chainId}) => {
   
@@ -31,38 +32,24 @@ export const SetMyNFT = ({chainId}) => {
   }
   const toknListViewer = async() => {
     let itemInfoArr = [{title: null, desc: null}];
-    let toknList = [];
 
     const userId = await getUserId(chainId);
     const item = await getOwnedTokns(userId);
     console.log(item);
     let itemLen = 0;
     while(itemLen < item[0].length){
-      let title = item[0][itemLen].title;
-      let hash = item[0][itemLen].hash;
-      let desc = item[0][itemLen].description;
       itemInfoArr[itemLen] = {
-        title: title, 
-        desc: desc, 
-        toknId: item[1][itemLen].toknid};
-      //toknList.push(await getToknList(userId, hash));
+        title: item[0][itemLen].title, 
+        desc: item[0][itemLen].description, 
+        toknId: item[1][itemLen].toknid
+      };  
       ++itemLen;
     }
     console.log(itemInfoArr);
-    setToknMatch(itemInfoArr);
+    if(item[0].length > 0)
+      setToknMatch(itemInfoArr);
   }
-  const getToknList = async(_userId, _itemHash) => {
-    return new Promise(resolve => {
-      let toknIdArr = [];
-      getItemsIdList(_userId, _itemHash).then(result => {
-        result.map(tokenId => {
-          toknIdArr.push(tokenId.toknid);
-        })
-        resolve(toknIdArr);
-      })
-    })
-  }
-  
+
   const getToknStatus = async(_toknId) => {
     const toknStatus = await getItemStatus(_toknId);
     let count = 0;
@@ -135,30 +122,39 @@ const SaleModal = ({showFlag, setFlagFunc, selectedId, toknState, ADDR}) => {
     }
   }
   const openTokn = async() => {
-    if(PRIVATE_KEY !== undefined && toknPrice !== undefined){
-      const tokenPrice = parseInt(toknPrice*100000)+'0000000000000';
-      openToken(ADDR, PRIVATE_KEY, tokenPrice, selectedId).then(result => {
-        if(result === true){
-          const recorde = {
-            toknId: selectedId,
-            price: toknPrice,
-            state: true
-          }
-          putToknSale(recorde).then(resultIdx => {
-            if(resultIdx){
-              alert(`NFT (ID: ${selectedId}) sale started`);
-              setFlagFunc(false);
+    if(toknPrice !== undefined){
+      const record = {
+        playerId: sessionStorage.getItem('userid'),
+        playerPass: SHA256(PRIVATE_KEY)
+      }
+      if(await putLogin(record)){
+        const tokenPrice = parseInt(toknPrice*100000)+'0000000000000';
+        openToken(ADDR, PRIVATE_KEY, tokenPrice, selectedId).then(result => {
+          if(result === true){
+            const recorde = {
+              toknId: selectedId,
+              price: toknPrice,
+              state: true
             }
-          })
-        }
-        else{
-          //console.log(result);
-          alert(result);
-        }
-      })
+            putToknSale(recorde).then(resultIdx => {
+              if(resultIdx){
+                alert(`NFT (ID: ${selectedId}) sale started`);
+                setFlagFunc(false);
+              }
+            })
+          }
+          else{
+            console.log(result);
+            alert('not enough gas');
+          }
+        })
+      }
+      else{
+        alert('check again your Private key');
+      }
     }
     else
-      alert('check again PRIVATE_KEY and Price');
+      alert('please set a selling price');
   }
   const closeTokn = async() => {
     if(PRIVATE_KEY !== undefined){

@@ -7,6 +7,7 @@ import {
 } from "../utilityUnits/connMintService";
 import { getTradeBalance, withdrawSaleToknPrice } from "../utilityUnits/connTradeService";
 import { Help } from "../components/helpCpnt";
+import { SHA256 } from "../utilityUnits/SHA256";
 
 export const Wallet = ({web3, ADDR}) => {
   const [flagSend, setSendFlag] = useState(false);
@@ -79,7 +80,10 @@ export const Wallet = ({web3, ADDR}) => {
       alert('!Private Key required');
       return false}
   }
-
+  const tempbtn = () => {
+    const pHash = SHA256(PRIVATE_KEY);
+    console.log(pHash);
+  }
   return (
   <>
     <h2>wallet</h2>
@@ -91,6 +95,7 @@ export const Wallet = ({web3, ADDR}) => {
       <button onClick={withdrawFromTradeService}>내 잔고로 이체</button></h4>
     <h5> PRIVATE_KEY :
       <input onChange={(evt)=>setPriv(evt.target.value)} size='45'></input></h5>
+    {/* <button onClick={tempbtn}>gethash</button> */}
     <CoinSendModal
       showFlag = {flagSend}
       setFlag = {setSendFlag}

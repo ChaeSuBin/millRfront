@@ -5,13 +5,21 @@ export const FileListViewer = ({fileName, toknUri, permission}) => {
   
   const FilePreview = () => {
     const file = fileName.split('.');
-    if(file[1] === 'JPG' || file[1] === 'JPEG' || file[1] === 'bmp'){
+    if(file[1] === 'png' ||
+      file[1] === 'jpg' ||
+      file[1] === 'jpeg' ||
+      file[1] === 'JPG' || 
+      file[1] === 'JPEG' || 
+      file[1] === 'bmp'){
       const imgStock = `https://mintservice.asuscomm.com:8139/getimagestock/${toknUri}/${fileName}`;
       return(<>
         <img style={{width: '700px'}} src={imgStock}/>
       </>)
     }
-    else if(file[1] === 'mp3' || file[1] === 'MP3'){
+    else if(file[1] === 'flac' || 
+      file[1] === 'wav' ||
+      file[1] === 'mp3' || 
+      file[1] === 'MP3'){
       const auxStock = `https://mintservice.asuscomm.com:8139/getaudiostock/${toknUri}/${fileName}`;
       return(<>
         <audio controls src={auxStock} />

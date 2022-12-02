@@ -1,6 +1,6 @@
 import MintServiceABI from '../contracts/MintService.json';
 import Web3 from "web3/dist/web3.min.js";
-const web3 = new Web3('wss://ws-mumbai.matic.today');
+const web3 = new Web3('https://rpc-mumbai.matic.today');
 const MintServiceADDR = '0x55c2cF09ab6f15119ffc7024A27f83A69802D11a';
 const MarketPlaceADDR = '0x1434F691eCefeA03ce6532a4cA99FD7E08764e2d';
 
@@ -41,12 +41,15 @@ export const getTokenOwner = async(toknId) => {
     })
 }
 export const getTokenUri = async(toknId) => {
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
         mintService().methods.tokenURI(toknId).call().then(
             result => {
                 resolve(result);
             }
-        )
+        ).catch(err => {
+            console.log(err);
+            reject(err);
+        })
     })
 }
 export const getToknStatus = async(toknId) => {
@@ -107,13 +110,16 @@ export const eventMintTokn = async(ADDR) => {
     })
 }
 export const eventCreateItem = async(ADDR) => {
-    return new Promise(resolve => {
-        mintService().events.createItemEvt(
-            {filter: {creator: ADDR},
-            fromBlock: 'latest'},
-             (err, evt) => {
-                console.log('event call: ', evt);
-                resolve(evt.returnValues);            
+    return new Promise((resolve, reject) => {
+        mintService().events.createItemEvt({filter: {creator: ADDR}, fromBlock: 'latest'},
+            (err, evt) => {
+                if(!err){
+                    console.log('event call: ', evt);
+                    resolve(evt.returnValues);
+                }
+                else{
+                    reject(err);
+                }
         })
     })
 }

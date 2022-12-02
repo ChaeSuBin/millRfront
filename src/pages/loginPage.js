@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import { putLogin, getChainId, postTempuserTable, postResetMail, postResetPass, getMatchUserId } from "../api";
+import { putLogin, getMatchCode, getChainId, postTempuserTable } from "../api";
+import { CreateChainId } from "../components/createChainId";
+import { SHA256 } from "../utilityUnits/SHA256";
 
 export const LoginInput = ({triger}) => {
   const navigate = useNavigate();
@@ -14,9 +16,10 @@ export const LoginInput = ({triger}) => {
     if(evt.key === 'Enter') submit();
   }
   const submit = async() => {
+    const hPass = SHA256(inputPass);
     const record = {
       playerId: inputId,
-      playerPass: inputPass
+      playerPass: hPass
     };
     const result = await putLogin(record);
     if(result){
@@ -34,94 +37,52 @@ export const LoginInput = ({triger}) => {
       alert('❗confirm your ID and PASS again');
     }
   }
-  const sendMail = () => {
-    getMatchUserId(inputId).then(result => {
-      if(result){
-        postResetMail({playerId: inputId}).then(result => {
-          if(result)
-            alert('인증메일 전송됨.');
-        })
-      }
-      else
-        alert('존재하지 않는 아이디입니다.');
-    })
-  }
-  const changePass = () => {
-    if(inputPass !== inputPassConfirm){
-      alert('Passwords not match each other');
-    }
-    else if(inputVc == null || inputVc == undefined){
-      alert('not entered verification code');
-    }
-    else{
-      const record = {
-        playerId: inputId,
-        playerPass: inputPass,
-        vCode: inputVc
-      }
-      postResetPass(record).then(result => {
-        if(result){
-          alert('Password has been changed Please log in again.');
-          setFlag(false);}
-        else
-          alert('check again verification code');
-      })
-    }
-  }
   return(
     <section>
-      {findMode ? <>
-        <h5>E-mail: <input onChange={(event) => setId(event.target.value)} name="id" placeholder='id'/></h5>
-        <button onClick={sendMail}>send verification code</button>
-        <h5>verification code: <input onChange={(evt) => setVc(evt.target.value)} name="vc" placeholder='code'/></h5>
-        <h5>new Password: <input onChange={(evt) => setPass(evt.target.value)} name="newpw" type='password'/></h5>
-        <h5>confirm Password: <input onChange={(evt) => setConfirm(evt.target.value)} type='password'/></h5>
-        <button onClick={changePass}>change Password</button>
-                
-      </>:<>
-        <h2>login</h2>
+      <h2>login</h2>
         <h5>Email: <input onChange={(event) => setId(event.target.value)} name="id" placeholder='id'/></h5>
         <h5>pass: <input  onKeyPress={keyPress} type='password' 
           onChange={(event) => setPass(event.target.value)} name="pw" placeholder='password'/></h5>
         <button onClick={submit}>login</button>
-        <br/><br/><a style={{cursor: "pointer"}}><p onClick={() => setFlag(true)}>forgot your password?</p></a>
+        <br/><br/><a style={{cursor: "not-allowed"}}><p>주의: 잊어버린 Private Key는 되찾을 수 없습니다.</p></a>
         <br/>
         <a className="App-link" href="http://mintservice.asuscomm.com:3000/userregist">CREATE ACCOUNT</a>
-      </>}
-      
     </section>
   )
 }
 
-export const RegistInput = () => {
+export const RegistInput = ({web3}) => {
   const [inputId, setId] = useState();
-  const [inputPass, setPass] = useState();
+  const [inputVerif, setCode] = useState();
   const [inputConfirm, setConfirm] = useState();
   const [vcFlag, setVcFlag] = useState(false);
+  const [sendFlag, setSFlag] = useState(false);
   
-  const doneBtn = () => {
-    if(inputPass === inputConfirm){
-      const record = {
-        playerId: inputId,
-        playerPass: inputPass,
-      }
-      setVcFlag(true);
-      postTempuserTable(record);
-    }
-    else
-      alert('password not match! check again your password');
+  const sendVcode = () => {
+    postTempuserTable({playerId: inputId});
+    setSFlag(true);
   }
+  const verifBtn = async() => {
+    const matchResult = await getMatchCode(inputId, inputVerif);
+    console.log(matchResult);
+    setVcFlag(matchResult);
+    if(matchResult)
+      alert('인증되었습니다');
+    else
+      alert('잘못된 요청코드입니다 코드를 다시 확인하여 주십시오');
+  }
+
   return(
     <section>
-      {vcFlag ? <>
-        <p>입력하신 email 주소 {inputId} 로 인증 URL을 전송하였습니다<br/>
-        해당 주소로 접속하여 계정생성을 완료하십시오.</p>
-      </>:<>
-        <h5>Email: <input placeholder='id' onChange={(evt)=>setId(evt.target.value)}/></h5>
-        <h5>pass: <input type='password' placeholder='password' onChange={(evt)=>setPass(evt.target.value)}/></h5>
-        <h5>password confirm <input type='password' placeholder="password" onChange={(evt)=>setConfirm(evt.target.value)}/></h5>
-        <button onClick={doneBtn}>submit</button>
-      </>}
+        <h4>Email: <input placeholder='id' onChange={(evt)=>setId(evt.target.value)}/>
+        <button onClick={sendVcode}>인증번호 전송</button></h4>
+        {sendFlag ? <p>인증번호가 메일주소 {inputId} 로 전송되었습니다.</p>:<></>}
+        <h4>인증번호: <input placeholder='verif' onChange={(evt)=>setCode(evt.target.value)}/>
+        <button onClick={verifBtn}>인증하기</button></h4>   
+        {vcFlag ? <>
+          <CreateChainId uid={inputId} web3={web3}/>
+        </>:<>
+        </>}
     </section>
   )
 }

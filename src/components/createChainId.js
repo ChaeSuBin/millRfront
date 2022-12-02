@@ -2,73 +2,61 @@ import React from 'react';
 import './modal.css';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getChainId, putChainId } from '../api';
+import { postRegiPlayer } from '../api';
+import { SHA256 } from '../utilityUnits/SHA256';
 
 export const CreateChainId = ({uid, web3}) => {
-
-  const [modalFlag, setModal] = useState(false);
+  const navigate = useNavigate();
+  const [showFlag, setFlag] = useState(false);
   const [chainAccount, setAccount] = useState([]);
+  const [priv, setPriv] = useState();
 
   const createAccount = async() => {
-    const FROM_ADDR = await getChainId(uid);
-    if(FROM_ADDR === null){
-      let accountKey = [];
-      const account = web3.eth.accounts.create();
-      const record = { 
-        playerId: uid,
-        chainId : account.address
+    let accountKey = [];
+    const account = web3.eth.accounts.create();
+    
+    accountKey.push(account.address);
+    accountKey.push(account.privateKey);
+    setAccount(accountKey);
+    
+    setFlag(true);
+  }
+  const doneBtn = () => {
+    if(chainAccount[1] === priv){
+      const hPass = SHA256(chainAccount[1]);
+      const record = {
+        userId: uid,
+        pass: hPass,
+        addr: chainAccount[0]
       }
-      accountKey.push(account.address);
-      accountKey.push(account.privateKey);
-      setAccount(accountKey);
-      console.log(accountKey);
-
-      putChainId(record).then(result => {
-        if(result){
-          setModal(true);
+      postRegiPlayer(record).then(result => {
+        if(result === true){
+          alert('복사한 비밀키는 잊어버리지 않도록 다른곳에 반드시 저장하십시오');
+          sessionStorage.clear();
+          navigate('/signinpage');
         }
       })
     }
-    else{
-      alert('이미 블록체인 지갑이 연동된 계정입니다');
-    } 
+    else
+      alert('PRIVATE KEY 를 정확히 입력하여 주십시오');
   }
   return(
     <>
-      <button onClick={createAccount}>지갑 만들기</button>
-      <AlertModal 
-        showFlag={modalFlag} 
-        ADDR={chainAccount[0]} 
-        PRIVATE_KEY={chainAccount[1]} />
-    </>
-  )
-}
-
-const AlertModal = ({showFlag, ADDR, PRIVATE_KEY}) => {
-  const navigate = useNavigate();
-  const closeBtn = () => {
-    sessionStorage.clear();
-    navigate('/signinpage');
-  }
-  return(
-    <>{showFlag ? ( // showFlagがtrueだったらModalを表示する
-      <div id="overlay" className='overlay'>
-        <div id="modalcontents" className="modalcontents">
+      {showFlag ? <>
         <p>
           🎉Successfuly Created<br/>
-          CHAIN ID: {ADDR}<br/>
-          PRIVATE KEY: {PRIVATE_KEY}<br/>
+          CHAIN ID: {chainAccount[0]}<br/><br/>
+          PRIVATE KEY: {chainAccount[1]}<br/><br/>
           비밀키는 분실 시 되찾을 수 없습니다.<br/>
           반드시 메모장 등 자신만이 알 수 있는 곳에 옮겨 저장하십시오.<br/>
-          비밀키는 절대로 타인에게 알려주지 마십시오.<br/>
-          *재로그인 후 적용됩니다.
+          비밀키는 절대로 타인에게 알려주지 마십시오.<br/><br/>
+          위의 비밀키를 아래의 입력창에 붙여넣어 계정생성을 완료하세요
         </p>
-        <button onClick={closeBtn}>confirm</button>
-        </div>
-      </div>
-      ) : (
-        <></>// showFlagがfalseの場合はModalは表示しない)
-      )}
+        <input placeholder='PRIVATE_KET' onChange={(evt)=>setPriv(evt.target.value)}/>
+        <button onClick={doneBtn}>완료하기</button>
+      </>:<>
+        <button onClick={createAccount}>계정 만들기</button>
+      </>}
     </>
   )
 }

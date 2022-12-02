@@ -1,6 +1,6 @@
 import React, { useEffect, useState }from 'react';
 import { useParams } from "react-router-dom";
-import { getItemFiles, getItemInfo, getItemInfoFromHash } from '../components/detailPages/setItemIDX';
+import { getItemFiles, getItemInfo, getItemInfoFromToknId } from '../components/detailPages/setItemIDX';
 import { FileListViewer } from'../components/detailPages/fileListViewer';
 import { getBlockInfo, getNftInfo } from '../components/detailPages/setBlockIDX';
 import { WaitModal } from '../components/waitModal';
@@ -41,7 +41,7 @@ export const  ItemDetail = () => {
     setIB(toknInfo);
     const fileList = await getItemFiles(toknInfo.fileHash);
     setFlist(fileList);
-    const itemInfo = await getItemInfoFromHash(toknInfo.fileHash, _toknId);
+    const itemInfo = await getItemInfoFromToknId(_toknId);
     setII(itemInfo);
   }
 
@@ -93,7 +93,7 @@ const BuyModal = ({showFlag, setFlag2, setFlag, addr, price, itemId, buyMode}) =
         <h5> PRIVATE_KEY :
           <input onChange={(evt)=>setPriv(evt.target.value)} size='45'></input></h5>
         {buyMode ? <button onClick={() => {setFlag2(true); buyToknTransfer(price, itemId, setFlag2, addr, PRIVATE_KEY)}}>구매하기</button> : 
-          <button onClick={() => {setFlag2(true); buyToknMint(price, itemId, setFlag, setFlag2, addr, PRIVATE_KEY);}}>구매하기</button>}
+          <button onClick={() => {setFlag2(true); buyToknMint(price, itemId, setFlag2, addr, PRIVATE_KEY);}}>구매하기</button>}
         {/* <button onClick={() => {set_w_Flag(true); buyTokn(PRIVATE_KEY);}}>Buy</button> */}
         <button onClick={()=>setFlag(false)}>cancel</button>
       </div>

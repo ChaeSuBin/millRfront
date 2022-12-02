@@ -12,14 +12,14 @@ export const getItemInfo = async(_rowId) => {
         })
     })
 }
-export const getItemInfoFromHash = async(_fileHash, _itemId) => {
+export const getItemInfoFromToknId = async(_toknId) => {
     return new Promise(resolve => {
-        getItemTitle(_fileHash).then(item => {
+        getItemTitle(_toknId).then(item => {
             resolve({
                 title: item.title,
                 desc: item.description,
-                hash: _fileHash,
-                itemId: _itemId
+                hash: item.hash,
+                itemId: _toknId
             })
         })
     })
