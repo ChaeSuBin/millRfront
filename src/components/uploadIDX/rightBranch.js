@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 
 export const RightBranch = ({pWire}) => {
-  const [right, setRight] = useState([]);//c
+  const [right, setRight] = useState(['RR','RDW','RE','RPP']);//c
   const [disable, setDisable] = useState(false);
   const [exclusive, setExclusive] = useState('Public');//a
-  const [comm, setComm] = useState('NC');//b
+  const [comm, setComm] = useState('CO');//b
   const [viewRight, setView] = useState(false);
   const [tradeable, setTra] = useState(true);//d
   const [plusUri, setUri] = useState('');
@@ -26,7 +26,7 @@ export const RightBranch = ({pWire}) => {
     else setExclusive('Public');
   }
   const checkCommercial = (evt) => {
-    setRight([]);
+    // setRight([]);
     if(evt.target.value === "CO"){
       setComm("CO");
       setView(true);
@@ -36,7 +36,7 @@ export const RightBranch = ({pWire}) => {
       setView(true);
     }
     else{
-      setComm("NC")
+      setComm("NC");
       setView(false);
     }
   }
@@ -63,9 +63,9 @@ export const RightBranch = ({pWire}) => {
   }
   return(
     <>
-      {/* <button onClick={temp}>console</button> */}
+      <button onClick={temp}>console</button>
       <br/>저작권 이용 가능 여부 지정<br/>
-      <label><input type="radio" value="CO" onChange={checkCommercial} name='comm'/>
+      <label><input type="radio" value="CO" onChange={checkCommercial} defaultChecked={true} name='comm'/>
         영리목적 이용 허가 </label>
       <label><input type="radio" value="NC" onChange={checkCommercial} name='comm'/>
         비영리적 이용 허가 </label><br/>
@@ -74,13 +74,13 @@ export const RightBranch = ({pWire}) => {
         <br/>허가할 이용 범위 지정<br/>
         {/* <label><input type="checkbox" value="RA" checked={right.includes("RA")} onChange={checkRight} name='right'/>
         모든 권리</label> */}
-        <label><input type="checkbox" value="RR" checked={right.includes("RR")}onChange={checkRight} disabled={disable}/>
-        복제가능</label>
-        <label><input type="checkbox" value="RDW" checked={right.includes("RDW")}onChange={checkRight} disabled={disable}/>
+        <label><input type="checkbox" value="RR" defaultChecked={true}onChange={checkRight} disabled={disable}/>
+        배포/게재 가능</label>
+        <label><input type="checkbox" value="RDW" defaultChecked={true}onChange={checkRight} disabled={disable}/>
         2차제작 가능</label>
-        <label><input type="checkbox" value="RE" checked={right.includes("RE")}onChange={checkRight} disabled={disable}/>
+        <label><input type="checkbox" value="RE" defaultChecked={true}onChange={checkRight} disabled={disable}/>
         전시가능</label>
-        <label><input type="checkbox" value="RPP" checked={right.includes("RPP")}onChange={checkRight} disabled={disable}/>
+        <label><input type="checkbox" value="RPP" defaultChecked={true}onChange={checkRight} disabled={disable}/>
         공연가능</label><br/>
       </> : <></>}
       {/* <br/>타인간 거래 가능여부 선택<br/>

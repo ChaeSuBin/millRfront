@@ -6,6 +6,7 @@ import { getBlockInfo, getNftInfo } from '../components/detailPages/setBlockIDX'
 import { WaitModal } from '../components/waitModal';
 import { buyToknMint } from '../components/detailPages/toknMint';
 import { buyToknTransfer } from '../components/detailPages/toknTransfer';
+import { Help } from '../components/helpCpnt';
 
 export const  ItemDetail = () => {
   const FROM_ADDR = sessionStorage.getItem('chainid');
@@ -16,6 +17,8 @@ export const  ItemDetail = () => {
   const [buyMode, setMode] = useState(false);
   const [buyFlag, setFlag] = useState(false);
   const [waitFlag, set_w_Flag] = useState(false);
+  const [helpFlag, setHelp] = useState(false);
+  const [helpMode, setHmode] = useState();
   
   useEffect(() => {
     currentMode(locate.id, locate.mode);
@@ -44,13 +47,22 @@ export const  ItemDetail = () => {
     const itemInfo = await getItemInfoFromToknId(_toknId);
     setII(itemInfo);
   }
-
+  const openHelp = (evt, _displayMode) => {
+    setHelp(true);
+    setHmode(_displayMode);
+    document.addEventListener('click',closeModal);
+    evt.stopPropagation();
+  }
+  const closeModal = () => {
+    setHelp(false);
+    document.removeEventListener('click',closeModal);
+  }
   return (
   <><br/><br/>
     <h3>title: {itemInfo.title}</h3>
     <h4>가격: {itemInfoB.price} MATIC</h4>
-    <h4>수수료: {itemInfoB.royalty} MATIC</h4>
-    <h4>이용가능 범위: {itemInfoB.useRange}</h4>
+    <h4 onClick={(evt) => openHelp(evt, 1)} style={{cursor: "help"}}>수수료: {itemInfoB.royalty} MATIC  🔎</h4>
+    <h4 onClick={(evt) => openHelp(evt, 0)} style={{cursor: "help"}}>이용가능 범위: {itemInfoB.useRange}  🔎</h4>
     
     {buyMode ? 
       <>
@@ -78,6 +90,10 @@ export const  ItemDetail = () => {
     />
     <WaitModal
       showFlag={waitFlag}
+    />
+    <Help
+      showFlag={helpFlag}
+      display={helpMode}
     />
   <br/><br/></>
   );

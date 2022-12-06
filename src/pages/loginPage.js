@@ -46,7 +46,7 @@ export const LoginInput = ({triger}) => {
         <button onClick={submit}>login</button>
         <br/><br/><a style={{cursor: "not-allowed"}}><p>주의: 잊어버린 Private Key는 되찾을 수 없습니다.</p></a>
         <br/>
-        <a className="App-link" href="http://mintservice.asuscomm.com:3000/userregist">CREATE ACCOUNT</a>
+        <a className="App-link" href="https://millrnft/userregist">CREATE ACCOUNT</a>
     </section>
   )
 }

@@ -32,15 +32,7 @@ export const HelpDesk= () => {
   return(
     <>
       <h2>help</h2>
-      <h4 onClick={whatmatic}>내 지갑 확인하기</h4>
-      {howMatc ?
-      <ol>
-        <li>최초 로그인 시 화면 상단의 Account Info를 클릭하여 '계정정보' 페이지로 이동합니다.</li>
-        <li>지갑 발급 버튼을 눌러 지갑주소를 부여받습니다.<br/>(이때 나오는 Private Key는 잊어버리지 않도록 잘 적어둡니다)</li>
-        <li>페이지를 새로고침하여 내 계정과 연동된 지갑주소를 확인합니다.</li>
-        <li>보유한 MATIC 코인은 Account Info의 'wallet' 항목에서 확인할 수 있습니다</li>
-      </ol> : <></>}
-      <h4 onClick={whatpriv}>지갑주소는 뭐고 Private key는 뭔가요?</h4>
+      <h4 style={{cursor: "pointer"}} onClick={whatpriv}>지갑주소는 뭐고 Private key는 뭔가요?</h4>
       {whatpri ?
       <ul>
         <li>지갑주소는 블록체인 네트워크상에 존재하는 고유한 주소값입니다.</li>
@@ -50,7 +42,7 @@ export const HelpDesk= () => {
         <li>때문에 Private key가 타인에게 노출되면 원치않는 거래가 일어날 수 있으니 절대로 타인에게 알려주어서는 안됩니다. </li>
         <li>Private key는 MillRnft에서 따로 데이터베이스에 저장하지 않으니 잊어버리지 않도록 잘 관리합시다.</li>
       </ul> : <></>}
-      <h4 onClick={getmatic}>코인은 어떻게 얻나요?</h4>
+      <h4 style={{cursor: "pointer"}} onClick={getmatic}>코인은 어떻게 얻나요?</h4>
       {getMatc ? 
       <ul>
         <li>테스트 기간중 메틱코인은 아래의 URL 에서 하루에 0.5 코인씩 얻을 수 있습니다.</li>
@@ -58,7 +50,7 @@ export const HelpDesk= () => {
         <li> Test 기간이 끝나면, '거래소'를 통해서 구입합니다. <br/>(이 방법에 대해서는 test기간 후, 안내드립니다.)</li>
       </ul> : <></>
       }
-      <h4 onClick={howtomint}>NFT는 어떻게 만들어 판매하나요?</h4>
+      <h4 style={{cursor: "pointer"}} onClick={howtomint}>NFT는 어떻게 만들어 판매하나요?</h4>
       {howMint ? 
       <ol>
         (본 작업을 수행하기 전 0.01 이상의 MATIC 코인이 있는지 확인하십시오)
@@ -72,7 +64,7 @@ export const HelpDesk= () => {
         <li>홈 화면으로 이동하여 배포중인 NFT 토글 클릭</li>
         <li>판매중인 내 아이템 확인</li>
       </ol> : <></>}
-      <h4 onClick={howtosale}> 보유한 NFT는 어떻게 판매하나요?</h4>
+      <h4 style={{cursor: "pointer"}} onClick={howtosale}> 보유한 NFT는 어떻게 판매하나요?</h4>
       {howSale ? 
       <ol>
         (본 작업을 수행하기 전 0.01 이상의 MATIC 코인이 있는지 확인하십시오)

@@ -26,12 +26,13 @@ export const SetItemCpnt = ({title, desc, toknUri, rightInfo}) => {
     else
       setActive(false);
   }
+
   const setItem = async() => {
     const royality = parseInt(Royalty*100000)+'0000000000000';
     const value = parseInt(price*100000)+'0000000000000';
     const tokenUri = rightInfo+toknUri;
     
-    if(title !== '' && desc !== '' ){
+    if(title !== '' && desc !== '' && price !== undefined && NumOfTokn !== undefined){
       const record = {
         playerId: sessionStorage.getItem('userid'),
         playerPass: SHA256(PRIVATE_KEY)
@@ -47,7 +48,7 @@ export const SetItemCpnt = ({title, desc, toknUri, rightInfo}) => {
     }
     else{
       setFlag(false);
-      alert('Please enter the title and description of the item to be uploaded');
+      alert('아이템 정보, 발행 정보를 정확히 입력한 후 다시 시도하십시오');
     }
   }
   const uploadItemIdx = async(_itemId) => {
@@ -82,9 +83,9 @@ export const SetItemCpnt = ({title, desc, toknUri, rightInfo}) => {
     <>
     {/* <button onClick={putDBtoknIDX}>temp</button> */}
     <h3>아이템 판매정보 입력</h3>
-    <p>quantity: <input placeholder='quantity of token' onChange={(evt)=>setNumOfTokn(evt.target.value)} disabled={active}/></p>
-    <p>price: <input placeholder='price of token' onChange={(evt)=>setValue(evt.target.value)} /></p>
-    <p>royalties: <input placeholder='MATIC' onChange={(evt)=>setLowest(evt.target.value)} defaultValue='0'/></p>
+    <p>발행수량: <input placeholder='quantity of token' onChange={(evt)=>setNumOfTokn(evt.target.value)} disabled={active}/></p>
+    <p>발행가격: <input placeholder='price of token' onChange={(evt)=>setValue(evt.target.value)} /></p>
+    <p>로열티: <input placeholder='MATIC' onChange={(evt)=>setLowest(evt.target.value)} defaultValue='0'/></p>
     <p>private Key: <input placeholder='input your private key to mint nft' onChange={(evt)=>setPrivKey(evt.target.value)} size='45'/></p>
     <button onClick={() => {setFlag(true); setItem();}}>판매시작</button>
     <WaitModal showFlag={modalFlag} />
