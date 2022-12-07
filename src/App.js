@@ -22,8 +22,8 @@ function App() {
   const [triger, setTriger] = useState(false);
   const uid = sessionStorage.getItem('userid');
   const FROM_ADDR = sessionStorage.getItem('chainid');
-  const web3 = new Web3('https://rpc-mumbai.matic.today');
-  // const web3 = new Web3('wss://ws-mumbai.matic.today');
+  const web3 = new Web3('https://rpc-mumbai.maticvigil.com');
+  //const web3 = new Web3('wss://ws-mumbai.matic.today');
 
   // useEffect(() => {
   //   toknMintingEvtListener();

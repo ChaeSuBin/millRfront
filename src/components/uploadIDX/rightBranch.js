@@ -63,7 +63,7 @@ export const RightBranch = ({pWire}) => {
   }
   return(
     <>
-      <button onClick={temp}>console</button>
+      {/* <button onClick={temp}>console</button> */}
       <br/>저작권 이용 가능 여부 지정<br/>
       <label><input type="radio" value="CO" onChange={checkCommercial} defaultChecked={true} name='comm'/>
         영리목적 이용 허가 </label>

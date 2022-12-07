@@ -36,6 +36,19 @@ export const Help = ({showFlag, display}) => {
           </p>
         </>)
       }
+      else if(display ===4){
+        return(<>
+          <p>판매수량을 의미합니다<br/>
+            예를 들어 100 을 입력 시 최초 100회 판매 후 판매가 종료됩니다.</p>
+        </>)
+      }
+      else if(display ===5){
+        return(<>
+          <p>판매가격은 폴리곤 코인(matic 코인) 을 기준으로 합니다<br/>
+            예를 들어 1 을 입력 시 구매자는 1 코인에 구입을 할 수 있습니다.<br/>
+            폴리곤 코인의 현재 가격은 https://coinmarketcap.com/ko/currencies/polygon/ 에서 확인할 수 있습니다</p>
+        </>)
+      }
     }
     return(<>
       {showFlag ? ( // showFlagがtrueだったらModalを表示する

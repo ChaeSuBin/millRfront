@@ -1,6 +1,6 @@
 import MintServiceABI from '../contracts/MintService.json';
 import Web3 from "web3/dist/web3.min.js";
-const web3 = new Web3('https://rpc-mumbai.matic.today');
+const web3 = new Web3('https://rpc-mumbai.maticvigil.com');
 const MintServiceADDR = '0x55c2cF09ab6f15119ffc7024A27f83A69802D11a';
 const MarketPlaceADDR = '0x1434F691eCefeA03ce6532a4cA99FD7E08764e2d';
 
