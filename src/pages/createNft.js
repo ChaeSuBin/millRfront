@@ -5,6 +5,8 @@ import { RightBranch } from "../components/uploadIDX/rightBranch";
 
 export const CreateNft = ({web3}) => {
   const uid = sessionStorage.getItem('userid');
+  const SEND_ADDR = sessionStorage.getItem('chainid');
+  const [balance, setBalance] = useState(0);
   const [title, setTitle] = useState('');
   const [desc, setDesc] = useState('');
   const [itemHash, setHash] = useState(null);
@@ -12,12 +14,34 @@ export const CreateNft = ({web3}) => {
   const [loginFlag, setFlag] = useState(false);
 
   useEffect(() => {
-    checkLogined(uid);
-    console.log(uid);
+    initCheck();
   },[])
 
-  const checkLogined = (uid) => {
-    if(uid === null){
+  const initCheck = async() => {
+    const balZero = await getUserBal();
+    checkLogined(balZero);
+  }
+  const getUserBal = async() => {
+    return new Promise(resolve => {
+      if(SEND_ADDR === null){
+        resolve(true);
+      }
+      web3.eth.getBalance(SEND_ADDR).then(balanc => {
+        let count = 0;
+        do{
+          balanc /= 1000000;
+          ++count;
+        }while(count < 3)
+        if(balanc < 0.01)
+          resolve(true);
+        else
+          resolve(false);
+      })
+    })
+  }
+
+  const checkLogined = (balZero) => {
+    if(balZero){
       setFlag(false);
     }
     else{
@@ -42,7 +66,8 @@ export const CreateNft = ({web3}) => {
           </>
         }  
       </>:<>
-        <p>판매 아이템 업로드를 위해 로그인이 필요합니다.</p>
+        <p>판매 아이템 업로드를 위한 폴리곤 코인(matic 코인)이 부족합니다.<br/>
+        계정에 폴리곤 코인을 충전 후 다시 시도하여주시기 바랍니다.</p>
       </>}
       
     </>

@@ -50,7 +50,7 @@ function App() {
               <Route exact path='/userregist' element={<RegistInput web3={web3}/>}/>
               <Route exact path='/signinpage' element={<LoginInput triger={(param) => setTriger(param)}/>}/>
               <Route exact path='/myinfo' element={<UserInfoPage web3={web3} chainId={FROM_ADDR}/>}/>
-              <Route exact path='/filetohash' element={<CreateNft />}/>
+              <Route exact path='/filetohash' element={<CreateNft web3={web3} />}/>
               <Route exact path='/itemdetails/:mode/:id' element={<ItemDetail />}/>
             </Routes>
           </section>
