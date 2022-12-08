@@ -42,8 +42,15 @@ export const SetItemCpnt = ({title, desc, toknUri, rightInfo}) => {
       }
       if(await putLogin(record)){
         setNFTidx(SEND_ADDR, PRIVATE_KEY, tokenUri, value, royality, NumOfTokn).then(result => {
-          console.log(result);})
-        uploadItemIdx();
+          if(result === true){
+            console.log(10000);
+            uploadItemIdx();
+          }
+          else{
+            alert('폴리곤 네트워크에 정보를 쓰기위한 수수료(gas)가 부족합니다\n계좌의 폴리곤 코인을 충전 후 다시 시도하여 주십시오.');
+            setFlag(false);
+          }
+        })
       }
       else{
         alert('Private Key 를 다시 확인 후 시도하십시오');
