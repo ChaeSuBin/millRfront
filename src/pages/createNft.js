@@ -4,9 +4,7 @@ import { SetItemCpnt } from "../components/uploadIDX/setItem";
 import { RightBranch } from "../components/uploadIDX/rightBranch";
 
 export const CreateNft = ({web3}) => {
-  const uid = sessionStorage.getItem('userid');
   const SEND_ADDR = sessionStorage.getItem('chainid');
-  const [balance, setBalance] = useState(0);
   const [title, setTitle] = useState('');
   const [desc, setDesc] = useState('');
   const [itemHash, setHash] = useState(null);
@@ -55,8 +53,10 @@ export const CreateNft = ({web3}) => {
         <h3>아이템 제목/설명/이용범위 설정.</h3>
         <p>title: <input placeholder='title' onChange={(evt)=>setTitle(evt.target.value)}/></p>
         <p>description: <br/>
-        <textarea name="docudesc" rows='5' cols='55' placeholder="아이템 설명을 입력해주세요.&#13;" 
-          onChange={(evt) => setDesc(evt.target.value)}/></p>
+          <textarea name="docudesc" rows='5' cols='55' placeholder="아이템 설명을 입력해주세요.&#13;" 
+            onChange={(evt) => setDesc(evt.target.value)}/><br/>
+            description란은 업로드할 파일의 간단한 설명을 적는 곳입니다.<br/>이곳에 파일 본문의 내용을 모두 적지 않도록 해 주십시오.
+        </p>
         <RightBranch pWire={(rightInfo)=>setRight(rightInfo)}/>
         {itemHash == null ?
           <>

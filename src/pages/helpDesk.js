@@ -1,4 +1,5 @@
 import React, { useState }from 'react';
+import { getFileBolb } from '../api';
 
 export const HelpDesk= () => {
   const [howMint, setHM] = useState(false);
@@ -28,6 +29,15 @@ export const HelpDesk= () => {
       setGM(false);
     else
       setGM(true);
+  }
+  const downTemplete = () => {
+    getFileBolb('8ba6421cfffc9728fa365d8f203bbb19d54991f1c7ef1915e8fd709931f7e78d', 'Creator Infomation.docx').then(response => {
+      let url = window.URL.createObjectURL(response);
+      let a = document.createElement('a');
+      a.href = url;
+      a.download = 'Creator Infomation.docx';
+      a.click();
+    })
   }
   return(
     <>
@@ -75,6 +85,7 @@ export const HelpDesk= () => {
         <li>'홈 화면'으로 이동하여 거래중인 NFT 토글 클릭 </li>
         <li>판매중인 내 NFT 확인</li>
       </ol> : <></>}
+      <p>문서형식 파일 업로드 양식<button onClick={downTemplete}>download</button></p>
     </>
   )
 }
