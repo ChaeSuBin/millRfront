@@ -65,6 +65,7 @@ export const SetFileHash = ({pWire}) => {
   return(
     <div>
       <h3>업로드할 파일 선택</h3>
+      <p>문서, 이미지, 오디오, 동영상 파일 가능</p>
       <label className="inputfile"><input type='file' 
         onChange={(evt)=>
           onFileInputChange(evt, setFileBuffer, setFileInfo, setCheckA)} 
