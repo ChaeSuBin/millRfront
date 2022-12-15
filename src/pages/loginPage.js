@@ -44,9 +44,9 @@ export const LoginInput = ({triger}) => {
         <h5>pass: <input  onKeyPress={keyPress} type='password' 
           onChange={(event) => setPass(event.target.value)} name="pw" placeholder='password'/></h5>
         <button onClick={submit}>login</button>
-        <br/><br/><a style={{cursor: "not-allowed"}}><p>주의: 잊어버린 Private Key는 되찾을 수 없습니다.</p></a>
         <br/>
-        <a className="App-link" href="https://millrnft.com/userregist">CREATE ACCOUNT</a>
+        <p>millRnft가 처음이시라면 <a className="App-link" href="https://millrnft.com/userregist">'여기'</a>에서 회원가입 진행</p>
+        <br/><br/><a style={{cursor: "not-allowed"}}><p>주의: 잊어버린 Private Key는 되찾을 수 없습니다.</p></a>
     </section>
   )
 }
