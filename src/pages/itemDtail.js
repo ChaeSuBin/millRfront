@@ -105,12 +105,16 @@ const BuyModal = ({showFlag, setFlag2, setFlag, addr, price, itemId, buyMode}) =
     {showFlag ? ( // showFlagがtrueだったらModalを表示する
     <div id="overlay" className='overlay'>
       <div id="modalcontents" className="modalcontents">
-        <h4>가격: {price} Matic</h4>
-        <h5> PRIVATE_KEY :
-          <input onChange={(evt)=>setPriv(evt.target.value)} size='45'></input></h5>
-        {buyMode ? <button onClick={() => {setFlag2(true); buyToknTransfer(price, itemId, setFlag2, addr, PRIVATE_KEY)}}>구매하기</button> : 
-          <button onClick={() => {setFlag2(true); buyToknMint(price, itemId, setFlag2, addr, PRIVATE_KEY);}}>구매하기</button>}
-        {/* <button onClick={() => {set_w_Flag(true); buyTokn(PRIVATE_KEY);}}>Buy</button> */}
+        {addr === null ? <>
+          <p>로그인 후 이용가능한 서비스 입니다</p>
+        </>:<>
+          <h4>가격: {price} Matic</h4>
+          <h5> PRIVATE_KEY :
+            <input onChange={(evt)=>setPriv(evt.target.value)} size='45'></input></h5>
+          {buyMode ? <button onClick={() => {setFlag2(true); buyToknTransfer(price, itemId, setFlag2, addr, PRIVATE_KEY)}}>구매하기</button> : 
+            <button onClick={() => {setFlag2(true); buyToknMint(price, itemId, setFlag2, addr, PRIVATE_KEY);}}>구매하기</button>}
+          {/* <button onClick={() => {set_w_Flag(true); buyTokn(PRIVATE_KEY);}}>Buy</button> */}
+        </>}
         <button onClick={()=>setFlag(false)}>cancel</button>
       </div>
     </div>

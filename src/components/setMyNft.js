@@ -78,6 +78,7 @@ export const SetMyNFT = ({chainId}) => {
         />
       ))}
       <h2>보유한 NFT 목록.</h2>
+      <a>알림-현재 보유한 NFT 목록의 표시가 부정확한 에러가 발생하여 수정중입니다.</a>
       {toknMatch.length === 0 ?
         <p>No NFT in your account</p>:<></>}
       {toknMatch.map((searchItems, index) => (
