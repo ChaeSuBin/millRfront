@@ -10,13 +10,17 @@ export const UserInfoPage = ({web3, chainId}) => {
     <>
       <h2>Account Info</h2>
       <h4>user ID: {uid}</h4>
-      {chainId == null ? 
+      {chainId == false ? <>
+        <h4>현재 사용하시는 브라우저가 최신버전이 아니거나 지원하지 않는 브라우저입니다</h4>
+        </>:<>
+        {chainId == null ? 
         <>
           <h4>chainId: 아직 {uid} 계정에 연결되어있는 폴리곤 지갑이 없습니다.</h4>
         </> : <>
           <h4>지갑 주소: <a href={scanUrl}>{chainId}</a></h4>
           <Wallet web3={web3} ADDR={chainId} />
           <SetMyNFT chainId={chainId} />
+        </>}
         </>}
     </>
   )
