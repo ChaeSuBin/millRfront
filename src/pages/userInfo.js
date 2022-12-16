@@ -10,7 +10,7 @@ export const UserInfoPage = ({web3, chainId}) => {
     <>
       <h2>Account Info</h2>
       <h4>user ID: {uid}</h4>
-      {chainId == false ? <>
+      {chainId == "false" ? <>
         <h4>현재 사용하시는 브라우저가 최신버전이 아니거나 지원하지 않는 브라우저입니다</h4>
         </>:<>
         {chainId == null ? 
