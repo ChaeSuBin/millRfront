@@ -4,12 +4,17 @@ export const Help = ({showFlag, display}) => {
     const Description = () => {
       if(display === 0){
         return(<>
+          <p>RDT: 복제하여 배포/전송 가능</p>
+          <p>RWA: 복제하여 타 문서에 첨부/기재 가능</p>
+          <p>DW: 해당 NFT의 파일을 이용하여 2차적 저작물 제작 가능</p>
+          <p>EP: 공공 전시/공연 가능</p>
+          <p>------------------이하 구버전 이용허락 목록(삭제예정)</p>
           <p>RR: Right of Reproduction</p>
           <p>RD: Right of Distribution</p>
           <p>RDW: Right of Derivative Works</p>
           <p>RT: Right of Public Transmission</p>
           <p>RE: Right of Exhibition</p>
-          <p>RP: Right of Public Performance</p>
+          <p>RpP: Right of Public Performance</p>
           
         </>)
       }

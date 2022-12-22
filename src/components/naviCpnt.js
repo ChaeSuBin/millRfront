@@ -19,6 +19,7 @@ export const Nav = ({userId, chainId}) => {
   return (
     <nav style={{fontSize: "large"}}>
       <Link to="/" className="space">home</Link>
+      <Link to="/cooperlate" className="space">co-opNFT</Link>
       {logined ? 
         <>
           <a style={{cursor: "pointer"}} onClick={storageClear} className="space">signout</a>

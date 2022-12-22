@@ -12,40 +12,23 @@ import { UserInfoPage } from "./pages/userInfo";
 import { LoginInput, RegistInput } from './pages/loginPage';
 import { ItemDetail } from "./pages/itemDtail";
 import { HelpDesk } from "./pages/helpDesk";
+import { CoperHome } from "./pages/cooperHome";
 import { Nav } from './components/naviCpnt';
-// import { eventMintTokn } from './utilityUnits/connMintService';
-// import { serveToknIdx } from './components/detailPages/toknMint';
-// import { eventTradeTokn } from "./utilityUnits/connTradeService";
-// import { updateToknIdx } from "./components/detailPages/toknTransfer";
-
 function App() {
   const [triger, setTriger] = useState(false);
   const uid = sessionStorage.getItem('userid');
   const FROM_ADDR = sessionStorage.getItem('chainid');
   const web3 = new Web3('https://rpc-mumbai.maticvigil.com');
-  //const web3 = new Web3('wss://ws-mumbai.matic.today');
-
-  // useEffect(() => {
-  //   toknMintingEvtListener();
-  //   toknTransferEvtListerner();
-  // })
-  // const toknMintingEvtListener = async() => {
-  //   const listen = await eventMintTokn(FROM_ADDR);
-  //   serveToknIdx(listen.toknId, FROM_ADDR);
-  // }
-  // const toknTransferEvtListerner = async() => {
-  //   const listen = await eventTradeTokn(FROM_ADDR);
-  //   updateToknIdx(listen.buyer, listen.toknId);
-  // }
   
   return (
-    <div className="App">
-      <header>
+    <div>
+      <header className="App">
         <Router>
           <Nav userId={uid} chainId={FROM_ADDR}></Nav>
           <section className="">
             <Routes>
               <Route exact path='/' element={<HomePage />}/>
+              <Route exact path='/cooperlate' element={<CoperHome />}/>
               <Route exact path='/helpdesk' element={<HelpDesk />} />
               <Route exact path='/userregist' element={<RegistInput web3={web3}/>}/>
               <Route exact path='/signinpage' element={<LoginInput triger={(param) => setTriger(param)}/>}/>
@@ -55,7 +38,8 @@ function App() {
             </Routes>
           </section>
         </Router>
-      </header>
+      </header><br/><br/>
+      <footer>millRnft v0.3.7 <br/>본 서비스는 베타버전으로서 NFT의 저작재산권등 이용 권리에 실제 효력은 없음을 밝힙니다.</footer>
     </div>
   );
 }

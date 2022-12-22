@@ -50,8 +50,8 @@ const setPermissionUse = (splitedUri) => {
       }
       else{
         if(splitedUri[2] !== 'CO')
-          return(splitedUri[3] + ' (No commercially use)');
+          return(splitedUri[3] + ' (상업적 이용 불가)');
         else
-          return(splitedUri[3] + ' (Commercially Avaliable)');
+          return(splitedUri[3] + ' (상업적 이용 가능)');
     }
 }

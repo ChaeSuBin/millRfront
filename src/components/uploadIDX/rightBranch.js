@@ -74,14 +74,14 @@ export const RightBranch = ({pWire}) => {
         <br/>허가할 이용 범위 지정<br/>
         {/* <label><input type="checkbox" value="RA" checked={right.includes("RA")} onChange={checkRight} name='right'/>
         모든 권리</label> */}
-        <label><input type="checkbox" value="RR" defaultChecked={true}onChange={checkRight} disabled={disable}/>
-        배포/게재 가능</label>
-        <label><input type="checkbox" value="RDW" defaultChecked={true}onChange={checkRight} disabled={disable}/>
-        2차제작 가능</label>
-        <label><input type="checkbox" value="RE" defaultChecked={true}onChange={checkRight} disabled={disable}/>
-        전시가능</label>
-        <label><input type="checkbox" value="RPP" defaultChecked={true}onChange={checkRight} disabled={disable}/>
-        공연가능</label><br/>
+        <label><input type="checkbox" value="RDT" defaultChecked={true}onChange={checkRight} disabled={disable}/>
+        복제하여 배포/전송 가능</label>
+        <label><input type="checkbox" value="DW" defaultChecked={true}onChange={checkRight} disabled={disable}/>
+        2차적 저작물 작성 가능</label>
+        <label><input type="checkbox" value="EP" defaultChecked={true}onChange={checkRight} disabled={disable}/>
+        공공전시/공연 가능</label>
+        <label><input type="checkbox" value="RWA" defaultChecked={true}onChange={checkRight} disabled={disable}/>
+        복제하여 타 문서에 기재/첨부 가능</label><br/>
       </> : <></>}
       {/* <br/>타인간 거래 가능여부 선택<br/>
       <label><input type="radio" value="PO" onChange={checkTradeable} name='tradeable' defaultChecked/>

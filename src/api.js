@@ -1,10 +1,9 @@
 async function request(path, options = {}) {
-    //const url = `http://localhost:8139${path}`;
     const url = `https://mintservice.asuscomm.com:8139${path}`;
+    // const url = `https://gc4t8kvc7c.execute-api.us-east-1.amazonaws.com${path}`;
     const response = await fetch(url, options);
     return response.json();
 }
-
 
 export async function getMatchCode(_userId, _vcode){
   return request(`/getmatchvcode/${_userId}/${_vcode}`);
