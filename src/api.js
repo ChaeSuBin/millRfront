@@ -38,6 +38,9 @@ export async function getItem(_rowId) {
 export async function getToknId(_fromAddr){
   return request(`/toknid/${_fromAddr}`);
 }
+export async function getDonateList(){
+  return request('/donatelist');
+}
 export async function getOpenedItem(){
   return request('/openeditems');
 }

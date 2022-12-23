@@ -3,11 +3,17 @@ import { getItem, getFileList, getItemTitle } from "../../api";
 export const getItemInfo = async(_rowId) => {
     return new Promise(resolve => {
         getItem(_rowId).then(item => {
+            let donate='';
+            if(item.tempdonate === null)
+                donate = '없음';
+            else
+                donate = item.tempdonate;
             resolve({
                 title: item.title,
                 desc: item.description,
                 hash: item.hash,
-                itemId: item.itemid
+                itemId: item.itemid,
+                tempdonate: donate
             })
         })
     })

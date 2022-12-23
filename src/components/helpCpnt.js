@@ -54,6 +54,11 @@ export const Help = ({showFlag, display}) => {
             폴리곤 코인의 현재 가격은 https://coinmarketcap.com/ko/currencies/polygon/ 에서 확인할 수 있습니다</p>
         </>)
       }
+      else if(display ===6){
+        return(<>
+          <p>해당 작품의 NFT가 생성되어 팔릴 때마다 지정한 기관으로 수익의 일부가 송신됩니다.</p>
+        </>)
+      }
     }
     return(<>
       {showFlag ? ( // showFlagがtrueだったらModalを表示する

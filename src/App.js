@@ -13,6 +13,7 @@ import { LoginInput, RegistInput } from './pages/loginPage';
 import { ItemDetail } from "./pages/itemDtail";
 import { HelpDesk } from "./pages/helpDesk";
 import { CoperHome } from "./pages/cooperHome";
+import { DonateList } from "./pages/donatelist";
 import { Nav } from './components/naviCpnt';
 function App() {
   const [triger, setTriger] = useState(false);
@@ -28,8 +29,9 @@ function App() {
           <section className="">
             <Routes>
               <Route exact path='/' element={<HomePage />}/>
+              <Route exact path='/donatetemp' element={<DonateList />}/>
               <Route exact path='/cooperlate' element={<CoperHome />}/>
-              <Route exact path='/helpdesk' element={<HelpDesk />} />
+              <Route exact path='/helpdesk' element={<HelpDesk />}/>
               <Route exact path='/userregist' element={<RegistInput web3={web3}/>}/>
               <Route exact path='/signinpage' element={<LoginInput triger={(param) => setTriger(param)}/>}/>
               <Route exact path='/myinfo' element={<UserInfoPage web3={web3} chainId={FROM_ADDR}/>}/>
@@ -39,7 +41,7 @@ function App() {
           </section>
         </Router>
       </header><br/><br/>
-      <footer>millRnft v0.3.7 <br/>본 서비스는 베타버전으로서 NFT의 저작재산권등 이용 권리에 실제 효력은 없음을 밝힙니다.</footer>
+      <footer>millRnft v0.4.2 <br/>본 서비스는 베타버전으로서 NFT의 저작재산권등 이용 권리에 실제 효력은 없음을 밝힙니다.</footer>
     </div>
   );
 }

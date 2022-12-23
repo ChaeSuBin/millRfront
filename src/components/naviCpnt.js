@@ -19,7 +19,6 @@ export const Nav = ({userId, chainId}) => {
   return (
     <nav style={{fontSize: "large"}}>
       <Link to="/" className="space">home</Link>
-      <Link to="/cooperlate" className="space">co-opNFT</Link>
       {logined ? 
         <>
           <a style={{cursor: "pointer"}} onClick={storageClear} className="space">signout</a>
@@ -28,7 +27,10 @@ export const Nav = ({userId, chainId}) => {
           signin
         </Link>
       }
-       <Link to='/helpdesk' className="space">help</Link>
+      <Link to="/cooperlate" className="space">groopNFT</Link>
+      <Link to="/donatetemp" className='space'>donateList</Link>
+      <>. 재능발굴</>
+      <Link to='/helpdesk' className="space">help</Link>
       {/* {userId} : {chainId} */}
     </nav>
   );
