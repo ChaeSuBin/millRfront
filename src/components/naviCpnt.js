@@ -27,9 +27,9 @@ export const Nav = ({userId, chainId}) => {
           signin
         </Link>
       }
-      <Link to="/cooperlate" className="space">groopNFT</Link>
-      <Link to="/donatetemp" className='space'>donateList</Link>
-      <>. 재능발굴</>
+      <Link to="/cooperlate" className="space">group</Link>
+      <>. 재능</>
+      <Link to="/donatetemp" className='space'>donate</Link>
       <Link to='/helpdesk' className="space">help</Link>
       {/* {userId} : {chainId} */}
     </nav>
