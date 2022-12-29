@@ -13,7 +13,7 @@ export const DonateList = () => {
 		setOrg(items);
 	}
 	return(<>
-		<p>등록된 기관명</p>
+		<p>Nonprofit organization which the royalty of NFT is designated to</p>
 		{orgName.map((searchItems, index) => (
 			<DonateListCpnt
 				key={index}

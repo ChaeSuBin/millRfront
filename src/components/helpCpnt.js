@@ -20,12 +20,9 @@ export const Help = ({showFlag, display}) => {
       }
       else if(display === 1){
         return(<>
-          <p>최초 토큰 발행자(A)가 설정한 최소거래금액으로<br/>
-          구매자(B)가 제3자(C)에게 판매할 경우 <br/>
-          이 금액 밑으로 판매할 수 없음.<br/><br/>
-          또한 B와 C사이의 거래가 이루어졌을 경우 <br/>
-          최소거래금액은 자동으로 A에게 귀속되며<br/>
-          판매액에서 최소거래금액을 제하여 B에게 정산됨.</p>
+          <p>This amount is  donated to the charity institution  you designate in the following blank,
+          each time the transation of this NFT occurs.
+          </p>
         </>)
       }
       else if(display ===2){

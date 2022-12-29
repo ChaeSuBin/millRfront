@@ -50,8 +50,8 @@ const setPermissionUse = (splitedUri) => {
       }
       else{
         if(splitedUri[2] !== 'CO')
-          return(splitedUri[3] + ' (상업적 이용 불가)');
+          return('소유권만 인정');
         else
-          return(splitedUri[3] + ' (상업적 이용 가능)');
+          return('저작권 이전');
     }
 }
