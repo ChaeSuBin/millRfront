@@ -17,7 +17,7 @@ export const UploadFiles = ( fileBufferList, fileInfoList, finalHash ) => {
     })
     setTimeout(()=>{
       mergeChunks(fileInfoList, finalHash);
-	  },2000);
+	  },3000);
 }
 const uploadList = (fileInfoList, fileChunks, _index) => {
   fileChunks.map((item, index) => {

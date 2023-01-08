@@ -109,7 +109,6 @@ export const SetItemCpnt = ({title, desc, toknUri, rightInfo}) => {
     <p>발행수량: <input type="number" placeholder='quantity of token' onChange={(evt)=>setNumOfTokn(evt.target.value)} disabled={active}/><a onClick={(evt) => openHelp(evt, 4)} style={{cursor: "help"}}>❓</a></p>
     <p>발행가격: <input type="number" step="0.01" placeholder='price of token' onChange={(evt)=>setValue(evt.target.value)} /><a onClick={(evt) => openHelp(evt, 5)} style={{cursor: "help"}}>❓</a></p>
     <p>로열티: <input type="number" placeholder='MATIC' onChange={(evt)=>setLowest(evt.target.value)} defaultValue='0'/><a onClick={(evt) => openHelp(evt, 1)} style={{cursor: "help"}}>❓</a></p>
-    <p>기부처: <input placeholder='Organization' onChange={(evt)=>setDonate(evt.target.value)} /><a onClick={(evt) => openHelp(evt, 6)} style={{cursor: "help"}}>❓</a></p>
     <p>private Key: <input placeholder='input your private key to mint nft' onChange={(evt)=>setPrivKey(evt.target.value)} size='45'/></p>
     <button onClick={() => {setFlag(true); setItem();}}>판매시작</button>
     <WaitModal showFlag={modalFlag} />

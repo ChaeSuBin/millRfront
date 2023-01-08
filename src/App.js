@@ -13,7 +13,6 @@ import { LoginInput, RegistInput } from './pages/loginPage';
 import { ItemDetail } from "./pages/itemDtail";
 import { HelpDesk } from "./pages/helpDesk";
 import { CoperHome } from "./pages/cooperHome";
-import { DonateList } from "./pages/donatelist";
 import { Nav } from './components/naviCpnt';
 function App() {
   const [triger, setTriger] = useState(false);
@@ -29,7 +28,6 @@ function App() {
           <section className="">
             <Routes>
               <Route exact path='/' element={<HomePage />}/>
-              <Route exact path='/donatetemp' element={<DonateList />}/>
               <Route exact path='/cooperlate' element={<CoperHome />}/>
               <Route exact path='/helpdesk' element={<HelpDesk />}/>
               <Route exact path='/userregist' element={<RegistInput web3={web3}/>}/>

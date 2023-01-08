@@ -61,7 +61,6 @@ export const  ItemDetail = () => {
   <><br/><br/>
     <h3>title: {itemInfo.title}</h3>
     <h4>가격: {itemInfoB.price} MATIC</h4>
-    <h4 onClick={(evt) => openHelp(evt, 6)} style={{cursor: "help"}}>기부처: {itemInfo.tempdonate} ❓</h4>
     <h4 onClick={(evt) => openHelp(evt, 1)} style={{cursor: "help"}}>수수료: {itemInfoB.royalty} MATIC  ❓</h4>
     <h4 onClick={(evt) => openHelp(evt, 0)} style={{cursor: "help"}}>이용가능 범위: {itemInfoB.useRange}  ❓</h4>
     
