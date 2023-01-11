@@ -28,7 +28,6 @@ export const Nav = ({userId, chainId}) => {
         </Link>
       }
       <Link to="/cooperlate" className="space">group</Link>
-      <>. 재능</>
       <Link to="/donatetemp" className='space'>endowment</Link>
       <Link to='/helpdesk' className="space">help</Link>
       {/* {userId} : {chainId} */}

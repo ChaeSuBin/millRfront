@@ -41,7 +41,7 @@ function App() {
           </section>
         </Router>
       </header><br/><br/>
-      <footer>millRnft v0.4.2 <br/>본 서비스는 베타버전으로서 NFT의 저작재산권등 이용 권리에 실제 효력은 없음을 밝힙니다.</footer>
+      <footer>millRnft v0.4.4 <br/>본 서비스는 베타버전으로서 NFT의 저작재산권등 이용 권리에 실제 효력은 없음을 밝힙니다.</footer>
     </div>
   );
 }

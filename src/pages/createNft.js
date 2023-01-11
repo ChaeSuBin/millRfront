@@ -66,6 +66,7 @@ export const CreateNft = ({web3}) => {
             onChange={(evt) => countString(evt.target.value)}/><br/>
             입력가능: {strLen}/120
         </p>
+        <input type="checkbox" value="RDT" />To introduce a new talent<br/>
         <RightBranch pWire={(rightInfo)=>setRight(rightInfo)}/>
         {itemHash == null ?
           <>
