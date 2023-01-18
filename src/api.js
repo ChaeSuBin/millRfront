@@ -41,8 +41,8 @@ export async function getToknId(_fromAddr){
 export async function getDonateList(){
   return request('/donatelist');
 }
-export async function getOpenedItem(){
-  return request('/openeditems');
+export async function getOpenedItem(_page){
+  return request(`/openeditems/${_page}`);
 }
 export async function getOpenedTokn(){
   return request('/openedtokns');
